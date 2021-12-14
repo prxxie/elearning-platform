@@ -1,0 +1,57 @@
+version: '3.7'
+
+networks:
+  webnet:
+    name: mainnet
+
+volumes:
+  mysqldata:
+    name: elearning-data
+
+services:
+
+  elearning-app:
+    build:
+      context: .
+      dockerfile: apps/elearning/Dockerfile
+      target: development
+      args:
+        NODE_ENV: development
+    image: "prxxie/elearning-app:latest"
+    restart: always
+    env_file: .env
+    networks:
+      - webnet
+    volumes:
+      - ".:/src"
+      - /nest/node_modules
+    depends_on:
+      - mariadb
+      # - redis
+    environment:
+      - VIRTUAL_HOST=api.elearning.local
+      - VIRTUAL_PORT=3000
+
+  mariadb:
+    image: mariadb
+    restart: always
+    networks:
+      - webnet
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE_NAME}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - "mysqldata:/var/lib/mysql"
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - webnet
+    environment:
+      - VIRTUAL_HOST=adminer.elearning.local
+      - VIRTUAL_PORT=8080

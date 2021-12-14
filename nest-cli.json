@@ -1,0 +1,48 @@
+{
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/elearning/src",
+  "monorepo": true,
+  "root": "apps/elearning",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/elearning/tsconfig.app.json"
+  },
+  "projects": {
+    "elearning": {
+      "type": "application",
+      "root": "apps/elearning",
+      "entryFile": "main",
+      "sourceRoot": "apps/elearning/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/elearning/tsconfig.app.json"
+      }
+    },
+    "frontend": {
+      "type": "application",
+      "root": "apps/frontend",
+      "entryFile": "main",
+      "sourceRoot": "apps/frontend/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/frontend/tsconfig.app.json"
+      }
+    },
+    "tenancy": {
+      "type": "library",
+      "root": "libs/tenancy",
+      "entryFile": "index",
+      "sourceRoot": "libs/tenancy/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/tenancy/tsconfig.lib.json"
+      }
+    },
+    "mysql": {
+      "type": "library",
+      "root": "libs/mysql",
+      "entryFile": "index",
+      "sourceRoot": "libs/mysql/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mysql/tsconfig.lib.json"
+      }
+    }
+  }
+}
